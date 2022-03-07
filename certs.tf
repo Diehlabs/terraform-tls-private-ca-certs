@@ -17,7 +17,10 @@ resource "tls_cert_request" "cert_csr" {
   for_each        = local.certs
   key_algorithm   = tls_private_key.cert_key[each.key].algorithm
   private_key_pem = tls_private_key.cert_key[each.key].private_key_pem
-  dns_names       = each.value.dns_names
+  dns_names = concat(
+    each.value.dns_names,
+    ["localhost"]
+  )
   ip_addresses = concat(
     each.value.ip_addresses,
     ["127.0.0.1"]
