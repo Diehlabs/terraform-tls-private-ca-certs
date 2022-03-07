@@ -2,6 +2,28 @@
 
 Generates a local CA and one or more TLS keypairs for servers.
 
+Example usage:
+```hcl
+module "private_ca_certs" {
+  source = ".modules/tls"
+  csrs = [
+    {
+      common_name  = "host1"
+      dns_names    = ["alias1"]
+      ip_addresses = ["192.168.13.10"]
+    },
+    {
+      common_name = "host2"
+      dns_names   = ["alias2"]
+      ip_addresses = [
+        "192.168.13.11",
+        "192.168.13.12"
+      ]
+    }
+  ]
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -41,7 +63,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ca_key"></a> [ca\_key](#output\_ca\_key) | n/a |
-| <a name="output_ca_pem"></a> [ca\_pem](#output\_ca\_pem) | n/a |
-| <a name="output_certs"></a> [certs](#output\_certs) | n/a |
+| <a name="output_ca_key"></a> [ca\_key](#output\_ca\_key) | The CA certificate key PEM string |
+| <a name="output_ca_pem"></a> [ca\_pem](#output\_ca\_pem) | The CA certificate PEM string |
+| <a name="output_certs"></a> [certs](#output\_certs) | Map of certficates<br>hostname = {<br>  key = private\_key\_pem\_string<br>  cert = cert\_pem\_string<br>} |
 <!-- END_TF_DOCS -->

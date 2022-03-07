@@ -57,7 +57,7 @@ func TestVmss(t *testing.T) {
 	rsaKeyPEM := terraform.Output(t, terraformOptions, "key_host1")
 
 	t.Run("Test generated server cert", func(t *testing.T){
-		testSample(t, rsaCertPEM, rsaKeyPEM)
+		testCerts(t, rsaCertPEM, rsaKeyPEM)
 	})
 
 }
