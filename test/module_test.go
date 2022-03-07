@@ -1,7 +1,7 @@
 package test
 
 import (
-	// "os"
+	"os"
 	"testing"
 	"crypto/tls"
 	"strings"
