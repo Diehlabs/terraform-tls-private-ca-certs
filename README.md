@@ -1,6 +1,6 @@
-# terraform-<provider>-<module name>
+# terraform-tls-private-ca-certs
 
-This repo will be used as a template for new Terraform module Github repos.
+Generates a local CA and one or more TLS keypairs for servers.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
