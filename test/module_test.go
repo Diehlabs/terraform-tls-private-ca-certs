@@ -1,7 +1,7 @@
 package test
 
 import (
-	"os"
+	// "os"
 	"testing"
 	"crypto/tls"
 	"strings"
@@ -22,8 +22,8 @@ func TestVmss(t *testing.T) {
 	t.Parallel()
 
 	//os.Setenv("SKIP_reterraform_deploy", "true")
-	os.Setenv("SKIP_terraform_redeploy", "true")
-	os.Setenv("SKIP_terraform_destroy", "true")
+	//os.Setenv("SKIP_terraform_redeploy", "true")
+	//os.Setenv("SKIP_terraform_destroy", "true")
 
 	if tfbin := os.Getenv("TF_CLI_PATH"); tfbin != "" {
 		terraformBinary = tfbin
@@ -53,20 +53,16 @@ func TestVmss(t *testing.T) {
 		redeployUsingTerraform(t, workingDir)
 	})
 
-	// terraformOptions := test_structure.LoadTerraformOptions(t, workingDir)
+	rsaCertPEM := terraform.Output(t, terraformOptions, "cert_host1")
+	rsaKeyPEM := terraform.Output(t, terraformOptions, "key_host1")
 
-
-	t.Run("Sample test", func(t *testing.T){
-		testSample(t, terraformOptions, workingDir)
+	t.Run("Test generated server cert", func(t *testing.T){
+		testSample(t, rsaCertPEM, rsaKeyPEM)
 	})
 
 }
 
-func testSample(t *testing.T, terraformOptions *terraform.Options, workingDir string) {
-	// rsaCert := terraform.OutputMapOfObjects(t, terraformOptions, "certs")
-
-	rsaCertPEM := terraform.Output(t, terraformOptions, "cert_host1")
-	rsaKeyPEM := terraform.Output(t, terraformOptions, "key_host1")
+func testCerts(t *testing.T, rsaCertPEM string, rsaKeyPEM string) {
 
 	_, err := tls.X509KeyPair([]byte(rsaKeyPEM), []byte(rsaCertPEM))
 	if err == nil {
