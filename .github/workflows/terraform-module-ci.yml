@@ -1,36 +1,24 @@
-name: Terraform Module Build
+name: Terraform Module CI
 on:
   push:
     branches:
       - '**'
   pull_request:
     branches:
-      - 'main'
+      - main
   workflow_dispatch:
 
-env:
-  TERRAFORM_VERSION: '1.1.6'
-  TFLINT_VERSION: 'v0.34.1'
+permissions:
+  contents: read
 
 jobs:
-  tflint:
-    uses: Diehlabs/shared-workflows/.github/workflows/tflint.yml@main
-
-  checkov:
-    uses: Diehlabs/shared-workflows/.github/workflows/checkov.yml@main
+  ci:
+    permissions:
+      contents: write
+      checks: write
+      security-events: write
+    uses: Diehlabs/shared-workflows/.github/workflows/terraform-module.yml@terraform-module-pipeline
     with:
-      directory: ${{ github.workspace }}/examples/build
-    needs: tflint
-    if: success()
-
-  terratest:
-    uses: Diehlabs/shared-workflows/.github/workflows/terratest.yml@main
-    needs: tflint
-    if: success()
-
-  release:
-    uses: Diehlabs/shared-workflows/.github/workflows/github-release.yml@main
-    needs:
-      - tflint
-      - terratest
-    if: success() && github.ref == 'refs/heads/main'
+      terraform_version: 1.1.6
+      test_directory: test
+    secrets: inherit
