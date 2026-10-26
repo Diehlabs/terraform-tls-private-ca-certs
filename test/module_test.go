@@ -14,7 +14,8 @@ import (
 
 var uniqueId = random.UniqueId()
 
-var terraformBinary = "/usr/local/bin/terraform"
+// resolved from PATH; override with TF_CLI_PATH
+var terraformBinary = "terraform"
 
 var workingDir = "../examples/build"
 
