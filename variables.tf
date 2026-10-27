@@ -1,10 +1,12 @@
 variable "organization_name" {
   description = "Org name for TLS certificates"
+  type        = string
   default     = "Diehlabs, Inc"
 }
 
 variable "ca_common_name" {
   description = "Common name (CN) for CA certificate"
+  type        = string
   default     = "diehlabs.com"
 }
 
